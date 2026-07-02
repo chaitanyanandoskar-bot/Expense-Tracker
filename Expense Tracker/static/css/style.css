@@ -1,0 +1,39 @@
+body{
+    background:#f4f6f9;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+.navbar{
+    margin-bottom:20px;
+}
+
+.card{
+    border:none;
+    border-radius:10px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+.card-header{
+    font-size:20px;
+    font-weight:bold;
+}
+
+.table{
+    background:#fff;
+}
+
+.btn{
+    border-radius:5px;
+}
+
+.login-box,
+.register-box{
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,.2);
+}
+
+h2,h3,h4{
+    font-weight:bold;
+}

@@ -1,0 +1,318 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+  .container{
+    max-width:1200px;
+    animation:fadeIn .6s ease;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* ---------- Heading ---------- */
+
+.page-title{
+    font-size:30px;
+    font-weight:800;
+    margin-bottom:18px;
+    color:#0f172a;
+    letter-spacing:.5px;
+    text-shadow:
+        0 2px 8px rgba(59,130,246,.18);
+    animation:titleFloat 3s ease-in-out infinite;
+}
+
+@keyframes titleFloat{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-3px);
+    }
+}
+
+/* ---------- Buttons ---------- */
+
+.add-btn,
+.back-btn{
+    border-radius:12px;
+    font-weight:700;
+    padding:10px 22px;
+    transition:.3s;
+}
+
+.add-btn:hover,
+.back-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 20px rgba(37,99,235,.2);
+}
+
+/* ---------- Card ---------- */
+
+.expense-card{
+    background:rgba(255,255,255,.82);
+    backdrop-filter:blur(18px);
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 12px 30px rgba(59,130,246,.12);
+}
+
+/* ---------- Table ---------- */
+
+.table{
+    margin:0;
+    width:100%;
+}
+
+.table thead th{
+    background:linear-gradient(135deg,#60a5fa,#93c5fd,#dbeafe);
+    color:#0f172a;
+    font-size:14px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+    padding:14px;
+    border:none;
+}
+
+.table tbody td{
+    padding:14px;
+    font-size:15px;
+    vertical-align:middle;
+}
+
+.table tbody tr{
+    transition:.35s;
+    cursor:pointer;
+}
+
+.table tbody tr:nth-child(even){
+    background:#f8fbff;
+}
+
+.table tbody tr:hover{
+    background:linear-gradient(90deg,#eff6ff,#dbeafe);
+    transform:translateY(-2px);
+    box-shadow:0 8px 18px rgba(37,99,235,.15);
+}
+
+.table tbody tr:active{
+    transform:scale(.98);
+}
+
+.selected{
+    background:linear-gradient(90deg,#bfdbfe,#93c5fd)!important;
+}
+
+/* ---------- Text Effects ---------- */
+
+.table td strong{
+    color:#1e293b;
+    transition:.3s;
+}
+
+.table tbody tr:hover strong{
+    color:#2563eb;
+    text-shadow:0 0 10px rgba(37,99,235,.25);
+}
+
+.amount{
+    font-weight:800;
+    color:#059669;
+    font-size:16px;
+    transition:.3s;
+}
+
+.table tbody tr:hover .amount{
+    transform:scale(1.08);
+    text-shadow:0 0 10px rgba(16,185,129,.3);
+}
+
+/* ---------- Delete Button ---------- */
+
+.delete-btn{
+    background:linear-gradient(135deg,#ef4444,#dc2626);
+    border:none;
+    border-radius:10px;
+    font-size:14px;
+    font-weight:700;
+    padding:7px 14px;
+    transition:.3s;
+}
+
+.delete-btn:hover{
+    transform:translateY(-2px) scale(1.05);
+    box-shadow:0 10px 18px rgba(239,68,68,.3);
+}
+
+.delete-btn:active{
+    transform:scale(.95);
+}
+
+/* ---------- Responsive ---------- */
+
+@media(max-width:992px){
+
+.container{
+    max-width:100%;
+}
+
+.page-title{
+    font-size:26px;
+}
+
+.table thead th,
+.table tbody td{
+    padding:12px;
+    font-size:14px;
+}
+
+}
+
+@media(max-width:768px){
+
+.page-title{
+    font-size:22px;
+}
+
+.add-btn,
+.back-btn{
+    width:100%;
+    margin-bottom:12px;
+}
+
+.table{
+    min-width:700px;
+}
+
+}
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 12px;
+}
+
+.card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+}
+
+</style>
+
+<div class="container mt-4">
+
+    <h2 class="page-title">
+        💸 Expense List
+    </h2>
+
+    <a href="{{ url_for('add_expense') }}"
+       class="btn btn-danger add-btn mb-4">
+        ➕ Add Expense
+    </a>
+
+    <div class="expense-card">
+
+        <div class="table-responsive">
+
+            <table class="table align-middle">
+
+                <thead>
+
+                    <tr>
+                        <th style="width:70px;">ID</th>
+                        <th>Category</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th width="140">Action</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for expense in expenses %}
+
+                    <tr>
+                        <td>{{ loop.index }}</td>
+
+                        <td>
+                            <strong>{{ expense.category }}</strong>
+                        </td>
+
+                        <td class="amount">
+                            ₹ {{ expense.amount }}
+                        </td>
+
+                        <td>
+                            {{ expense.expense_date }}
+                        </td>
+
+                        <td>
+
+                            <a href="{{ url_for('delete_expense', id=expense.id) }}"
+                               class="btn btn-danger btn-sm delete-btn"
+                               onclick="return confirm('Are you sure you want to delete this expense?')">
+
+                                🗑 Delete
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <a href="{{ url_for('dashboard') }}"
+       class="btn btn-primary back-btn mt-4">
+
+        ← Back to Dashboard
+
+    </a>
+
+</div>
+
+<script>
+  const rows = document.querySelectorAll("tbody tr");
+
+rows.forEach((row, index) => {
+
+    row.style.animation = `pageLoad .5s ease ${index * 0.08}s both`;
+
+    row.addEventListener("click", function () {
+
+        rows.forEach(r => r.classList.remove("selected"));
+
+        this.classList.add("selected");
+
+        this.animate([
+            { transform: "scale(0.98)" },
+            { transform: "scale(1.02)" },
+            { transform: "scale(1)" }
+        ], {
+            duration: 250
+        });
+
+    });
+
+});
+</script>
+
+{% endblock %}

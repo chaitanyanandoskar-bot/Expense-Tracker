@@ -1,0 +1,430 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+.container-report{
+    max-width:1200px;
+    margin:auto;
+    padding:25px;
+    animation:fade .6s ease;
+}
+
+@keyframes fade{
+from{opacity:0;transform:translateY(20px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+.page-title{
+    text-align:center;
+    font-size:32px;
+    font-weight:800;
+    color:#1e293b;
+    margin-bottom:30px;
+}
+
+/* ---------- Cards ---------- */
+
+.report-card{
+    border:none;
+    border-radius:18px;
+    height:160px;
+    overflow:hidden;
+    position:relative;
+    color:white;
+    transition:.35s;
+    box-shadow:0 10px 25px rgba(0,0,0,.12);
+}
+
+.report-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 18px 35px rgba(0,0,0,.18);
+}
+
+.report-card::before{
+    content:"";
+    position:absolute;
+    width:200%;
+    height:100%;
+    top:0;
+    left:-200%;
+    background:linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,.25),
+        transparent
+    );
+    transition:.8s;
+}
+
+.report-card:hover::before{
+    left:100%;
+}
+
+.income{
+    background:linear-gradient(135deg,#16a34a,#22c55e);
+}
+
+.expense{
+    background:linear-gradient(135deg,#dc2626,#ef4444);
+}
+
+.balance{
+    background:linear-gradient(135deg,#2563eb,#3b82f6);
+}
+
+.card-body{
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:22px;
+}
+
+.card-title{
+    font-size:18px;
+    font-weight:600;
+    margin-bottom:10px;
+}
+
+.amount{
+    font-size:30px;
+    font-weight:700;
+    letter-spacing:.5px;
+}
+
+.icon{
+    position:absolute;
+    top:18px;
+    right:20px;
+    font-size:40px;
+    opacity:.18;
+}
+
+/* ---------- Summary ---------- */
+
+.summary-card{
+    margin-top:35px;
+    border:none;
+    border-radius:18px;
+    overflow:hidden;
+    background:white;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.summary-header{
+    padding:16px 22px;
+    background:#111827;
+    color:white;
+    font-size:22px;
+    font-weight:700;
+}
+
+.table{
+    margin-bottom:0;
+}
+
+.table th{
+    background:#f8fafc;
+    font-size:16px;
+    font-weight:700;
+}
+
+.table td{
+    font-size:15px;
+}
+
+.table tbody tr{
+    transition:.3s;
+}
+
+.table tbody tr:hover{
+    background:#eff6ff;
+}
+
+/* ---------- Button ---------- */
+
+.back-btn{
+    margin-top:25px;
+    padding:10px 24px;
+    border-radius:10px;
+    font-weight:600;
+}
+
+.back-btn:hover{
+    transform:translateY(-2px);
+}
+
+/* ---------- Mobile ---------- */
+
+@media(max-width:768px){
+
+.page-title{
+font-size:28px;
+}
+
+.report-card{
+height:145px;
+margin-bottom:15px;
+}
+
+.amount{
+font-size:24px;
+}
+
+}
+/* ===========================
+   Expense Summary Table
+=========================== */
+
+.summary-card{
+    margin-top:35px;
+    background:#fff;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,.10);
+    animation:fadeUp .7s ease;
+}
+
+@keyframes fadeUp{
+from{
+opacity:0;
+transform:translateY(30px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+.summary-header{
+    background:linear-gradient(135deg,#1e293b,#0f172a);
+    color:#fff;
+    padding:18px 25px;
+    font-size:24px;
+    font-weight:700;
+}
+
+.table{
+    margin:0;
+}
+
+.table thead th{
+
+background:#f8fafc;
+padding:15px;
+font-size:16px;
+font-weight:700;
+border:none;
+
+}
+
+.table tbody tr{
+
+cursor:pointer;
+transition:.35s;
+position:relative;
+
+}
+
+.table tbody td{
+
+padding:16px;
+font-size:15px;
+border-top:1px solid #eef2f7;
+transition:.35s;
+
+}
+
+/* Hover */
+
+.table tbody tr:hover{
+
+background:linear-gradient(90deg,#eff6ff,#dbeafe);
+transform:translateY(-3px) scale(1.01);
+box-shadow:0 8px 18px rgba(37,99,235,.12);
+
+}
+
+/* Click */
+
+.table tbody tr:active{
+
+transform:scale(.98);
+
+}
+
+/* Selected */
+
+.table tbody tr.selected{
+
+background:linear-gradient(90deg,#bfdbfe,#93c5fd);
+color:#1e3a8a;
+font-weight:700;
+
+}
+
+/* Ripple */
+
+.table tbody tr::after{
+
+content:"";
+position:absolute;
+left:50%;
+top:50%;
+width:0;
+height:0;
+background:rgba(59,130,246,.15);
+border-radius:100%;
+transform:translate(-50%,-50%);
+transition:.5s;
+
+}
+
+.table tbody tr:active::after{
+
+width:500px;
+height:500px;
+
+}
+
+</style>
+
+<div class="container-report">
+
+<h2 class="page-title">
+📊 Expense Report
+</h2>
+
+<div class="row g-4">
+
+<div class="col-lg-4 col-md-6">
+
+<div class="card report-card income">
+
+<div class="icon">💰</div>
+
+<div class="card-body">
+
+<div class="card-title">Total Income</div>
+
+<div class="amount">
+₹ {{ total_income }}
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-4 col-md-6">
+
+<div class="card report-card expense">
+
+<div class="icon">💸</div>
+
+<div class="card-body">
+
+<div class="card-title">Total Expense</div>
+
+<div class="amount">
+₹ {{ total_expense }}
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-4 col-md-12">
+
+<div class="card report-card balance">
+
+<div class="icon">🏦</div>
+
+<div class="card-body">
+
+<div class="card-title">Balance</div>
+
+<div class="amount">
+₹ {{ balance }}
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="summary-card">
+
+<div class="summary-header">
+Expense Summary
+</div>
+
+<div class="table-responsive">
+
+<table class="table table-hover">
+
+<thead>
+
+<tr>
+
+<th>Category</th>
+
+<th>Total Amount</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for item in report %}
+
+<tr>
+
+<td>{{ item.category }}</td>
+
+<td><strong>₹ {{ item.total }}</strong></td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<a href="{{ url_for('dashboard') }}" class="btn btn-primary back-btn">
+← Back to Dashboard
+</a>
+
+</div>
+<script>
+
+const rows=document.querySelectorAll(".table tbody tr");
+
+rows.forEach(row=>{
+
+row.addEventListener("click",()=>{
+
+rows.forEach(r=>r.classList.remove("selected"));
+
+row.classList.add("selected");
+
+});
+
+});
+
+</script>
+{% endblock %}

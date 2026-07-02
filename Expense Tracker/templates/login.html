@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Expense Tracker | Login</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+    .flash-message {
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    .forgot-link {
+    color: #001aff;
+    font-weight: 500;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.forgot-link:hover {
+    color: white;
+    text-decoration: underline;
+}
+}
+
+.flash-hide {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    overflow:hidden;
+
+    background:linear-gradient(-45deg,
+    #0f2027,
+    #203a43,
+    #2c5364,
+    #3b4371,
+    #ff4b2b);
+
+    background-size:400% 400%;
+
+    animation:bgAnimation 15s ease infinite;
+
+    position:relative;
+
+}
+
+/* Animated Background */
+
+@keyframes bgAnimation{
+
+0%{
+background-position:0% 50%;
+}
+
+50%{
+background-position:100% 50%;
+}
+
+100%{
+background-position:0% 50%;
+}
+
+}
+
+/* Floating Circles */
+
+body::before,
+body::after{
+
+content:"";
+
+position:absolute;
+
+border-radius:50%;
+
+filter:blur(100px);
+
+opacity:.55;
+
+animation:float 7s ease-in-out infinite alternate;
+
+}
+
+body::before{
+
+width:300px;
+
+height:300px;
+
+background:#00dbde;
+
+top:-80px;
+
+left:-80px;
+
+}
+
+body::after{
+
+width:300px;
+
+height:300px;
+
+background:#fc00ff;
+
+bottom:-100px;
+
+right:-100px;
+
+}
+
+@keyframes float{
+
+from{
+transform:translateY(0);
+}
+
+to{
+transform:translateY(40px);
+}
+
+}
+
+/* Login Card */
+
+.login-box{
+
+width:420px;
+
+padding:40px;
+
+border-radius:25px;
+
+background:rgba(255,255,255,.12);
+
+backdrop-filter:blur(25px);
+
+border:1px solid rgba(255,255,255,.2);
+
+box-shadow:0 20px 50px rgba(0,0,0,.4);
+
+animation:card 1s ease;
+
+}
+
+@keyframes card{
+
+from{
+
+opacity:0;
+
+transform:translateY(60px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+/* Logo */
+
+.logo{
+
+font-size:60px;
+
+text-align:center;
+
+margin-bottom:10px;
+
+}
+
+/* Heading */
+
+h2{
+
+color:white;
+
+font-weight:700;
+
+text-align:center;
+
+margin-bottom:5px;
+
+}
+
+.subtitle{
+
+text-align:center;
+
+color:#ddd;
+
+margin-bottom:30px;
+
+}
+
+/* Labels */
+
+label{
+
+color:white;
+
+font-weight:500;
+
+margin-bottom:8px;
+
+}
+
+/* Inputs */
+
+.form-control{
+
+height:52px;
+
+border:none;
+
+border-radius:12px;
+
+background:rgba(255,255,255,.18);
+
+color:white;
+
+transition:.3s;
+
+}
+
+.form-control::placeholder{
+
+color:#ddd;
+
+}
+
+.form-control:focus{
+
+background:rgba(255,255,255,.25);
+
+color:white;
+
+box-shadow:0 0 15px #00eaff;
+
+border:1px solid #00eaff;
+
+}
+
+/* Button */
+
+.btn-login{
+
+width:100%;
+
+height:52px;
+
+border:none;
+
+border-radius:12px;
+
+font-size:18px;
+
+font-weight:600;
+
+background:linear-gradient(45deg,#00c6ff,#0072ff);
+
+color:white;
+
+transition:.4s;
+
+}
+
+.btn-login:hover{
+
+transform:translateY(-3px);
+
+box-shadow:0 10px 25px rgba(0,114,255,.5);
+
+}
+
+/* Alert */
+
+.alert{
+
+border-radius:10px;
+
+}
+
+/* Register */
+
+.register{
+
+text-align:center;
+
+margin-top:25px;
+
+color:white;
+
+}
+
+.register a{
+
+text-decoration:none;
+
+color:#00eaff;
+
+font-weight:600;
+
+}
+
+.register a:hover{
+
+color:white;
+
+}
+
+/* Responsive */
+
+@media(max-width:500px){
+
+.login-box{
+
+width:92%;
+
+padding:30px;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="login-box">
+
+<div class="logo">
+💰
+</div>
+
+<h2>Expense Tracker</h2>
+
+<p class="subtitle">
+Manage your expenses smartly
+</p>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="flash-message alert alert-{{ category }} fade show" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<form method="POST">
+
+<div class="mb-3">
+
+<label>Email Address</label>
+
+<input
+type="email"
+name="email"
+class="form-control"
+placeholder="Enter your email"
+required>
+
+</div>
+
+<div class="mb-4">
+
+<label>Password</label>
+
+<input
+type="password"
+name="password"
+class="form-control"
+placeholder="Enter your password"
+required>
+
+</div>
+
+<button class="btn-login">
+
+Login
+
+</button>
+<div style="text-align:center; margin-top:12px;">
+    <a href="{{ url_for('forgot_password') }}" class="forgot-link">
+        Forgot Password?
+    </a>
+</div>
+
+</form>
+
+<div class="register">
+
+Don't have an account?
+
+<a href="{{ url_for('register') }}">
+Create Account
+</a>
+
+</div>
+
+</div>
+<script>
+    setTimeout(() => {
+        const alerts = document.querySelectorAll('.flash-message');
+
+        alerts.forEach(alert => {
+            alert.classList.add('flash-hide');
+
+            setTimeout(() => {
+                alert.remove();
+            }, 600); // wait for fade-out animation
+        });
+
+    }, 4000); // 3 seconds
+</script>
+</body>
+</html>

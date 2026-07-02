@@ -1,0 +1,254 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Expense Tracker | Register</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Poppins, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background: linear-gradient(-45deg,
+                    #0f2027,
+                    #203a43,
+                    #2c5364,
+                    #3b4371,
+                    #ff4b2b);
+            background-size: 400% 400%;
+            animation: bg 15s ease infinite;
+            position: relative;
+        }
+
+        @keyframes bg {
+            0% {
+                background-position: 0 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0 50%;
+            }
+        }
+
+        body::before,
+        body::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: .5;
+        }
+
+        body::before {
+            width: 320px;
+            height: 320px;
+            background: #00dbde;
+            top: -90px;
+            left: -90px;
+            animation: f1 8s infinite alternate;
+        }
+
+        body::after {
+            width: 320px;
+            height: 320px;
+            background: #fc00ff;
+            bottom: -90px;
+            right: -90px;
+            animation: f2 8s infinite alternate;
+        }
+
+        @keyframes f1 {
+            to {
+                transform: translateY(60px);
+            }
+        }
+
+        @keyframes f2 {
+            to {
+                transform: translateY(-60px);
+            }
+        }
+
+        .register-box {
+            width: 450px;
+            padding: 40px;
+            border-radius: 28px;
+            background: rgba(255, 255, 255, .12);
+            backdrop-filter: blur(22px);
+            border: 1px solid rgba(255, 255, 255, .2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .4);
+            animation: card 5s ease-in-out infinite;
+        }
+
+        @keyframes card {
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 60px;
+        }
+
+        h2,
+        label,
+        .login {
+            color: white;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #ddd;
+            margin-bottom: 25px;
+        }
+
+        .form-control {
+            height: 52px;
+            border: none;
+            color: white;
+            background: rgba(255, 255, 255, .18);
+        }
+
+        .form-control::placeholder {
+            color: #ddd;
+        }
+
+        .form-control:focus {
+            color: white;
+            background: rgba(255, 255, 255, .25);
+            box-shadow: 0 0 15px #00eaff;
+        }
+
+        .btn-register {
+            width: 100%;
+            height: 52px;
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            background: linear-gradient(45deg, #00c6ff, #0072ff);
+            transition:.4s;
+        }
+
+        .btn-register:hover {
+            transform: translateY(-3px);
+            box-shadow:0 10px 25px rgba(0,114,255,.5);
+
+        }
+
+        a {
+            color: #00eaff;
+            text-decoration: none;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="register-box">
+
+        <div class="logo">
+            💰
+        </div>
+
+        <h2 class="text-center">Expense Tracker</h2>
+
+        <p class="subtitle">
+            Create your account
+        </p>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-danger">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+
+            <div class="mb-3">
+                <label>Full Name</label>
+                <input
+                    type="text"
+                    name="fullname"
+                    class="form-control"
+                    placeholder="Enter your Full Name"
+                    required>
+            </div>
+
+            <div class="mb-3">
+                <label>Email</label>
+                <input
+                    type="email"
+                    name="email"
+                    class="form-control"
+                    placeholder="Enter your email"
+                    required>
+            </div>
+
+            <div class="mb-3">
+                <label>Password</label>
+                <input
+                    type="password"
+                    name="password"
+                    class="form-control"
+                    placeholder="Enter your password"
+                    required>
+            </div>
+
+            <div class="mb-4">
+                <label>Confirm Password</label>
+                <input
+                    type="password"
+                    name="confirm_password"
+                    class="form-control"
+                    placeholder="Enter confirm password "
+                    required>
+            </div>
+
+            <button type="submit" class="btn-register">
+                Create Account
+            </button>
+
+        </form>
+
+        <p class="login text-center mt-4">
+            Already have an account?
+            <a href="{{ url_for('login') }}">
+                Login
+            </a>
+        </p>
+
+    </div>
+
+</body>
+
+</html>
+

@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- HEADER SEPARATE CONTAINER -->
+<!-- HEADER IN SEPARATE CARD -->
+<div class="container mb-4">
+
+    <div class="card glass shadow-sm border-0">
+        <div class="card-body text-center dashboard-header">
+
+            <h2 class="welcome-title">Welcome 👋</h2>
+            <p class="welcome-text">
+                Sky Blue Hyper-Real Finance Dashboard
+            </p>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- MAIN DASHBOARD -->
+<div class="container">
+
+    <div class="row g-4 mt-2">
+
+        <!-- Income -->
+        <div class="col-lg-4 col-md-6">
+            <div class="glass dashboard-card income-card">
+
+                <div class="card-glow"></div>
+
+                <div class="icon-circle income-icon">
+                    💰
+                </div>
+
+                <h5>Total Income</h5>
+
+                <h2 class="amount">
+                    ₹ {{ income }}
+                </h2>
+
+                <span class="badge-custom income-badge">
+                    + Income
+                </span>
+
+            </div>
+        </div>
+
+        <!-- Expense -->
+        <div class="col-lg-4 col-md-6">
+            <div class="glass dashboard-card expense-card">
+
+                <div class="card-glow"></div>
+
+                <div class="icon-circle expense-icon">
+                    💸
+                </div>
+
+                <h5>Total Expense</h5>
+
+                <h2 class="amount">
+                    ₹ {{ expense }}
+                </h2>
+
+                <span class="badge-custom expense-badge">
+                    - Expense
+                </span>
+
+            </div>
+        </div>
+
+        <!-- Balance -->
+        <div class="col-lg-4 col-md-12">
+            <div class="glass dashboard-card balance-card">
+
+                <div class="card-glow"></div>
+
+                <div class="icon-circle balance-icon">
+                    📊
+                </div>
+
+                <h5>Current Balance</h5>
+
+                <h2 class="amount">
+                    ₹ {{ balance }}
+                </h2>
+
+                <span class="badge-custom balance-badge">
+                    Available
+                </span>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
